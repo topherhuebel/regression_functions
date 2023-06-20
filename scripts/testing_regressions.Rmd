@@ -43,6 +43,13 @@ source(file = paste0(ilovedata_scripts, "functions/sumscores.R"))
 source(file = paste0(ilovedata_scripts, "functions/package_check.R"))
 source(file = paste0(ilovedata_scripts, "functions/imp_check.R"))
 source(file = paste0(ilovedata_scripts, "functions/recode_check.R"))
+
+source(file = "functions/linear_regression_estimates.R")
+source(file = "functions/linear_regression_statistics.R")
+
+source(file = "functions/logistic_regression_estimates.R")
+source(file = "functions/logistic_regression_statistics.R")
+
 ```
 
 Load packages
@@ -51,6 +58,7 @@ Load packages
 library(flextable)
 library(officer)
 library(gtsummary)
+library(broom)
 library(tidyverse)
 ```
 
@@ -147,12 +155,44 @@ bddtrauma_linear
 
 
 ```{r}
-bddtrauma_linear_statistics <-
-  linear.estimates(
+linear_statistics <-
+  linear.regression.statistics(
     outcome = "dcq.sum_score",
-    explanatory_variables = "gender",
+    explanatory_variables = c(
+      "cts.any_maltreatment_binary",
+      "ats.adult_trauma_binary"),
     population = "Full sample",
     data_set = "dat")
 
-bddtrauma_linear_statistics
+linear_statistics
 ```
+
+
+```{r}
+logistic_estimates <-
+  logistic.estimates(
+    outcome = "dcq.clinical_score",
+    explanatory_variables = c(
+      "cts.any_maltreatment_binary",
+      "ats.adult_trauma_binary"),
+    adjustment = model0_adjustment,
+    population = "Full sample",
+    data_set = "dat")
+
+logistic_estimates
+```
+
+
+```{r}
+logistic_statistics <-
+  linear.regression.statistics(
+    outcome = "dcq.clinical_score",
+    explanatory_variables = c(
+      "cts.any_maltreatment_binary",
+      "ats.adult_trauma_binary"),
+    population = "Full sample",
+    data_set = "dat")
+
+logistic_statistics
+```
+
