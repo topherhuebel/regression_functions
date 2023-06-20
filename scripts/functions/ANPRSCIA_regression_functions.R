@@ -19,14 +19,14 @@
 
 #########
 # Variables for testing
-# outcome = "suicide.attempts.last.12.months.t1.recoded.collapsed"
-# explanatory_variables = "year.inclusion"
-# adjustment = c()
-# data_set = "dat"
-# population = "Full sample"
-# name = "Model1"
-# time_point = "t1"
-# duration = "cross-sectional"
+ outcome = "dcq.sum_score"
+ explanatory_variables = "gender"
+ adjustment = c()
+ data_set = "dat"
+ population = "Full sample"
+ name = "Model1" # should not have white space
+ time_point = "t1"
+ duration = "cross-sectional"
 
 
 linear.estimates <- function(
@@ -35,7 +35,7 @@ linear.estimates <- function(
     data_set,
     population,
     regression = "Linear",
-    name = "Model 1",
+    name = "Model1",
     time_point = "t1",
     duration = "cross-sectional"
     )
@@ -67,11 +67,14 @@ linear.estimates <- function(
   
   # run the glm
   assign(
-    x = paste0(outcome,".",name),
-         lm( formula = glm.formula,
-             data = get(data_set)
-         )
-  )
+    x = paste0(outcome, ".", name),
+    value = lm(
+      formula = glm.formula,
+      data = get(data_set)
+      )
+    )
+  
+  # tidy output
   assign(paste0(outcome,"model1_estimates"),
          tidy(get(paste0(outcome,".model1")), conf.int = TRUE) %>%
            add_column(Model = "Model1", .before = "term") %>%
