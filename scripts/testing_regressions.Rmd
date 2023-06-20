@@ -48,10 +48,10 @@ source(file = paste0(ilovedata_scripts, "functions/recode_check.R"))
 Load packages
 
 ```{r Load packages}
-library(tidyverse)
 library(flextable)
 library(officer)
 library(gtsummary)
+library(tidyverse)
 ```
 
 Set current date
@@ -67,5 +67,10 @@ dat <- read_rds(
   file =
     paste0(filepath_cleaned_data,"dat_after_exclusion", date, ".rds")
 )
+```
+
+
+```{r}
+
 ```
 

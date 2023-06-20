@@ -21,78 +21,124 @@ duration = "cross-sectional"
 
 
 
-model1.reg.stats <- function(outcome, explanatory_variables, data_set, population) {
+linear.regression.statistics <- function(
+    outcome,
+    explanatory_variables,
+    adjustment = c(),
+    data_set,
+    population = "Full sample",
+    name = "Model1", # no white space
+    regression = "Linear",
+    time_point = "t1",
+    duration = "cross-sectional"
+    )
+  {
   # define the variable name of the dependent variable
   dependent.variable <- outcome
+  
   # explanatory variable
   explanatory.variable <- explanatory_variables
+  
   # covariates
-  covariates <- c(
-    "PC1",
-    "PC2",
-    "PC3",
-    "PC4",
-    "PC5",
-    "PC6",
-    "PC7",
-    "PC8",
-    "PC9",
-    "PC10",
-    "treatment.unit.t1"
-  )
+  covariates <- adjustment
+  
   # define the independent variables
   independent.variables <- c(
     explanatory.variable,
     covariates
   )
+  
   # create the formula
-  glm.formula <- as.formula(paste(dependent.variable, paste(independent.variables, collapse=" + "), sep=" ~ "))
+  glm.formula <- as.formula(
+    paste(
+      dependent.variable,
+      paste(independent.variables, collapse=" + "),
+      sep=" ~ ")
+    )
+  
   glm.formula
+  
   # run the glm
-  assign(paste0(outcome,".model1"),
-         lm( formula = glm.formula,
-             data = get(data_set)
-         )
-  )
-  assign(paste0(outcome,"model1_reg_stats"),
-         glance(get(paste0(outcome,".model1"))) %>%
-           add_column(Model = "Model1", .before = "nobs") %>%
-           add_column(Sample = population, .before = "Model") %>%
-           mutate(
-             "n" = format(
-               round(nobs,
-                     digits = 0),
-               nsmall = 0),
-             "R2" = format(
-               round(r.squared,
-                     digits = 3),
-               nsmall = 2),
-             "adjust. R2" = format(
-               round(adj.r.squared,
-                     digits = 3),
-               nsmall = 2),
-             "F" = format(
-               round(statistic,
-                     digits = 2),
-               nsmall = 2),
-             "p value" = case_when(
-               p.value < 0.001 ~ formatC(p.value, format = "e", digits = 2),
-               p.value >= 0.001 & p.value < 0.01 ~ formatC(p.value, format = "f", digits = 3),
-               p.value >= 0.01 ~ formatC(p.value, format = "f", digits = 2)
-             )
-           ) %>%
-           select(
-             "Sample",
-             "Model",
-             "n",
-             "R2",
-             "adjust. R2",
-             "F",
-             "p value",
-             "df"
-           )
-  )
-  return(get(paste0(outcome,"model1_reg_stats")))
-}
+  assign(
+    x = paste0(outcome, ".", name),
+    value = lm(
+      formula = glm.formula,
+      data = get(data_set)
+      )
+    )
+  
+  # tidy output
+  assign(
+    x = paste0(outcome, name, "_statistics"),
+    value = 
+      glance(get(paste0(outcome, ".", name))) %>%
+      add_column(
+        "Sample" = population,
+        "Model" = name,
+        "Regression" = regression,
+        "Duration" = duration,
+        "Dependent variable" = dependent.variable,
+        "Independent variable" = explanatory_variables,
+        "Time point" = time_point,
+    #    "R2" = round(R2_object[[1]], digits = 3),
+        .before = "nobs") %>%
+      mutate(
+        "n" = 
+          as.numeric(
+            format(
+              round(nobs,
+                    digits = 0),
+              nsmall = 0)
+            ),
+        "R2" = as.numeric(
+          format(
+            round(r.squared,
+                  digits = 3),
+            nsmall = 2)
+          ),
+        "adjust. R2" =
+          as.numeric(
+            format(
+              round(adj.r.squared,
+                    digits = 3),
+              nsmall = 2)
+            ),
+        "F" = as.numeric(
+          format(
+            round(statistic,
+                  digits = 2),
+            nsmall = 2)
+          ),
+        "p value" = case_when(
+          p.value < 0.001 ~ formatC(p.value, format = "e", digits = 2),
+          p.value >= 0.001 & p.value < 0.01 ~ formatC(p.value, format = "f", digits = 3),
+          p.value >= 0.01 ~ formatC(p.value, format = "f", digits = 2)
+          )
+        ) %>%
+      select(
+        "Sample",
+        "Time point",
+        "Duration",
+        "Model",
+        "Regression",
+        "Dependent variable",
+        "Independent variable",
+        "n",
+        "R2",
+        "adjust. R2", 
+        "sigma",
+        "F",
+        "p value",
+        "df",
+        "Deviance" = deviance,
+        "logLikelihood" = logLik,
+        "AIC",
+        "BIC",
+        "df Residual" = df.residual
+        )
+    )
+  
+  return(get(paste0(outcome, name, "_statistics")))
+  }
 
 
