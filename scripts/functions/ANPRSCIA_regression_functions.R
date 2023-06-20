@@ -75,11 +75,20 @@ linear.estimates <- function(
     )
   
   # tidy output
-  assign(paste0(outcome,"model1_estimates"),
-         tidy(get(paste0(outcome,".model1")), conf.int = TRUE) %>%
-           add_column(Model = "Model1", .before = "term") %>%
-           add_column(Sample = population, .before = "Model") %>%
-           mutate(
+  assign(
+    x = paste0(outcome, name, "_estimates"),
+    value =
+      tidy(
+        x = get(paste0(outcome, "." , name)),
+        conf.int = TRUE
+        ) %>%
+      add_column("Model" = name, .before = "term") %>%
+      add_column("Sample" = population, .before = "Model") %>%
+      add_column("Regression" = regression, .before = "Model") %>%
+      add_column("Time point" = time_point, .before = "Model") %>%
+      add_column("Duration" = duration, .before = "Model") %>%
+      add_column("Dependent variable" = dependent.variable, .before = "Model") %>%
+      mutate(
              "Indepent variable" = recode_factor(
                term,
                "(Intercept)" = "Intercept",
