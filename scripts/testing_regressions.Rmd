@@ -71,6 +71,64 @@ dat <- read_rds(
 
 
 ```{r}
+dat %>% names
+```
+
+# Linear example
+
+```{r}
+model0_adjustment <- c(
+  "gender",
+  "age",
+  "sexual_orientation",
+  "ethnicity"
+)
+model0_adjustment
+
+model1_adjustment <- c(
+  model0_adjustment,
+  "bmi",
+  "height_m"
+)
+model1_adjustment
+
+model2_adjustment <- c(
+  model1_adjustment,
+  "bmi",
+  "height_m"
+)
+
+model3_adjustment <- c(
+  model2_adjustment,
+  "dem.highest_education_collapsed"
+)
+model1_adjustment
 
 ```
 
+
+```{r}
+bddtrauma_linear <-
+  linear.estimates(
+    outcome = "dcq.sum_score",
+    explanatory_variables = c(
+      "cts.any_maltreatment_binary",
+      "ats.adult_trauma_binary"),
+    adjustment = model1_adjustment,
+    population = "Full sample",
+    data_set = "dat")
+
+bddtrauma_linear
+```
+
+
+```{r}
+bddtrauma_linear_statistics <-
+  linear.estimates(
+    outcome = "dcq.sum_score",
+    explanatory_variables = "gender",
+    population = "Full sample",
+    data_set = "dat")
+
+bddtrauma_linear_statistics
+```

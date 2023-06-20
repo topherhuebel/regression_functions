@@ -23,6 +23,7 @@
 linear.estimates <- function(
     outcome,
     explanatory_variables,
+    adjustment = c(),
     data_set,
     population,
     regression = "Linear",
