@@ -7,35 +7,67 @@
 #model 6: PC1-10 + treatment unit + age + sex + follow up time + age at first ed symptom
 
 
-model1.estimates <- function(outcome, explanatory_variables, data_set, population) {
+# outcome: Your outcome variable as continuous variable
+# explanatory_variables: A vector with your explanatory variables
+# adjustment: A vector with your variables that you want to adjust for
+# Population: A character string that names your full sample or a subsample
+# name: Name of the model (e.g., Model1, FullModel)
+
+# Appropriate R2 for differen regression models
+#https://easystats.github.io/performance/reference/r2.html
+
+
+#########
+# Variables for testing
+# outcome = "suicide.attempts.last.12.months.t1.recoded.collapsed"
+# explanatory_variables = "year.inclusion"
+# adjustment = c()
+# data_set = "dat"
+# population = "Full sample"
+# name = "Model1"
+# time_point = "t1"
+# duration = "cross-sectional"
+
+
+linear.estimates <- function(
+    outcome,
+    explanatory_variables,
+    data_set,
+    population,
+    regression = "Linear",
+    name = "Model 1",
+    time_point = "t1",
+    duration = "cross-sectional"
+    )
+  {
   # define the variable name of the dependent variable
   dependent.variable <- outcome
+  
   # explanatory variable
   explanatory.variable <- explanatory_variables
+  
   # covariates
-  covariates <- c(
-    "PC1",
-    "PC2",
-    "PC3",
-    "PC4",
-    "PC5",
-    "PC6",
-    "PC7",
-    "PC8",
-    "PC9",
-    "PC10",
-    "treatment.unit.t1"
-  )
+  covariates <- adjustment
+  
   # define the independent variables
   independent.variables <- c(
     explanatory.variable,
     covariates
   )
+  
   # create the formula
-  glm.formula <- as.formula(paste(dependent.variable, paste(independent.variables, collapse=" + "), sep=" ~ "))
+  glm.formula <- as.formula(
+    paste(
+      dependent.variable,
+      paste(independent.variables, collapse=" + "),
+      sep=" ~ ")
+    )
+  
   glm.formula
+  
   # run the glm
-  assign(paste0(outcome,".model1"),
+  assign(
+    x = paste0(outcome,".",name),
          lm( formula = glm.formula,
              data = get(data_set)
          )
