@@ -10,14 +10,14 @@
 
 #########
 # Variables for testing
- outcome = "dcq.sum_score"
- explanatory_variables = "gender"
- adjustment = c()
- data_set = "dat"
- population = "Full sample"
- name = "Model1" # should not have white space
- time_point = "t1"
- duration = "cross-sectional"
+# outcome = "dcq.sum_score"
+# explanatory_variables = "gender"
+# adjustment = c()
+# data_set = "dat"
+# population = "Full sample"
+# name = "Model1" # should not have white space
+# time_point = "t1"
+# duration = "cross-sectional"
 
 
 linear.estimates <- function(
