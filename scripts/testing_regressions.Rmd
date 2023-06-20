@@ -76,6 +76,23 @@ dat %>% names
 
 # Linear example
 
+Psychiatric diagnoses
+```{r Psychiatric diagnoses vector}
+psy_dx_factors <- c(
+  "mhd.personality_disorder",
+  "mhd.mdd",
+  "mhd.gad",
+  "mhd.ptsd",
+  "mhd.ocd",
+  "mhd.bdd",
+  "mhd.an",
+  "mhd.atypical_an",
+  "mhd.bn",
+  "mhd.bed"
+)
+```
+
+
 ```{r}
 model0_adjustment <- c(
   "gender",
@@ -93,17 +110,24 @@ model1_adjustment <- c(
 model1_adjustment
 
 model2_adjustment <- c(
-  model1_adjustment,
+  model0_adjustment,
   "bmi",
   "height_m"
 )
+model2_adjustment
 
 model3_adjustment <- c(
-  model2_adjustment,
+  model0_adjustment,
   "dem.highest_education_collapsed"
 )
-model1_adjustment
+model3_adjustment
 
+model4_adjustment <- c(
+  model0_adjustment,
+  psy_dx_factors
+)
+
+model4_adjustment
 ```
 
 
