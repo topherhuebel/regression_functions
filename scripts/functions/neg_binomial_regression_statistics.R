@@ -57,6 +57,7 @@ neg.binomial.reg.stats <- function(
              "Time point" = time_point,
              "Duration" = duration,
              "Dependent variable" = outcome,
+             "Independent variable" = paste(explanatory_variables, collapse = ", "),
              "Nagelkerke's R2" = round(R2_object[["R2_Nagelkerke"]], digits = 3),
              .before = "nobs") %>%
            mutate(
@@ -70,6 +71,8 @@ neg.binomial.reg.stats <- function(
              "Duration",
              "Model",
              "Regression",
+             "Dependent variable",
+             "Independent variable",
              "n",
              "Nagelkerke's R2",
              "Null deviance" = null.deviance,

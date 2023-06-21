@@ -10,14 +10,15 @@
 
 #########
 # Variables for testing
-# outcome = "dcq.sum_score"
-# explanatory_variables = "gender"
-# adjustment = c()
-# data_set = "dat"
-# population = "Full sample"
-# name = "Model1" # should not have white space
-# time_point = "t1"
-# duration = "cross-sectional"
+ outcome = "dcq.sum_score"
+ explanatory_variables = c("gender", "bmi")
+ adjustment = c("age", "height_m")
+ data_set = "dat"
+ population = "Full sample"
+ name = "Model1" # should not have white space
+ regression = "Linear"
+ time_point = "t1"
+ duration = "cross-sectional"
 
 
 
@@ -78,7 +79,7 @@ linear.regression.statistics <- function(
         "Regression" = regression,
         "Duration" = duration,
         "Dependent variable" = dependent.variable,
-        "Independent variable" = explanatory_variables,
+        "Independent variable" = paste(explanatory_variables, collapse = ", "),
         "Time point" = time_point,
     #    "R2" = round(R2_object[[1]], digits = 3),
         .before = "nobs") %>%

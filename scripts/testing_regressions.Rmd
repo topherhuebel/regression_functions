@@ -66,6 +66,7 @@ Set current date
 
 ```{r current date}
 date <- Sys.Date()
+date <- "2023-06-20"
 ```
 
 Load data

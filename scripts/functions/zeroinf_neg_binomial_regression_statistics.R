@@ -66,7 +66,7 @@ zeroinf.neg.binomial.reg.estimates <- function(
              "Model" = name,
              "Regression" = regression,
              "Dependent variable" = outcome,
-             "Independent variable" = explanatory.variable,
+             "Independent variable" = paste(explanatory_variables, collapse = ", "),
              "n" = get(paste0(outcome, ".", name))$`n`,
              "df Residual" = get(paste0(outcome, ".", name))$`SE.logtheta`, # adapt name
              "logLikelihood" = get(paste0(outcome, ".", name))$`loglik`, # adapt name

@@ -74,7 +74,7 @@ multinom.reg.statistics <- function(
              "Regression" = regression,
              "Duration" = duration,
              "Dependent variable" = dependent.variable,
-             "Independent variable" = explanatory_variables,
+             "Independent variable" = paste(explanatory_variables, collapse = ", "),
              "Time point" = time_point,
              "R2" = round(R2_object[["R2"]], digits = 3),
              "adjust. R2" = round(R2_object[["R2_adjusted"]], digits = 3),
