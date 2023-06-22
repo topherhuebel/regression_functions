@@ -81,7 +81,7 @@ linear.estimates <- function(
       add_column("Duration" = duration, .before = "Model") %>%
       add_column("Dependent variable" = dependent.variable, .before = "Model") %>%
       mutate(
-        "Indepent variable" = recode_factor(
+        "Independent variable" = recode_factor(
           term,
           "(Intercept)" = "Intercept",
           ),
@@ -133,7 +133,7 @@ linear.estimates <- function(
         "Model",
         "Regression",
         "Dependent variable",
-        "Indepent variable",
+        "Independent variable",
         "Estimate",
         "95% CI low",
         "95% CI up",
